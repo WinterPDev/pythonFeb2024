@@ -94,6 +94,11 @@ class Companion:
 # Accessing an attribute of that instance
 
 
+Player.GetAllPlayers()
+
+# Looping through dictionaries
+# for player in Players:
+#   new_player = Player(player["name"], player["age"], player["team"])
 Chimchar = Companion("Chimchar", ['Blaze', 'Tackle'], 200)
 
 Brock = Player("Brock", 200, 20, 400, Chimchar, ['Cook', 'Swoon'])

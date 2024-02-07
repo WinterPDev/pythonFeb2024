@@ -59,12 +59,12 @@ const expected7 = "";
 function reverseString(str) {
     var returnStr = str.split("").reverse("").join("")
 
+    // return returnStr;
+    let returnStr = '';
+    for (let i = str.length - 1; i >= 0; i--) {
+        returnStr += str[i];
+    }
     return returnStr;
-    // let returnStr = '';
-    //     for (let i = str.length - 1; i >= 0; i--) {
-    //         returnStr += str[i];
-    //     }
-    //     return returnStr;
 }
 
 //TEST CODE FOR REVERSE
