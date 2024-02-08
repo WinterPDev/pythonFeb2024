@@ -27,12 +27,16 @@ const expected4 = false;
  * @returns {boolean} Whether the given str is a palindrome or not.
  */
 function isPalindrome(str) {
+    let result = true
     // Since this is a repeat algo, here's a cool for loop trick:
-
     // We can instantiate two variables in the first part of our loop logic. In addition, we can also itterate those two variables too.
     for (let i = 0, j = str.length - 1; i < j; i++, j--) {
         // str[i] is the left side of our string. str[j] is the right side of our string.
+        if (str[i] !== str[j]) {
+            result = false
+        }
     }
+    return result
 }
 
 /*****************************************************************************/
@@ -81,6 +85,17 @@ function longestPalindromicSubstring(str) {
 
     // Hint: We could make use of .slice() to get substrings like the abc example above.
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+
+    let returnStr = str[0]
+
+    for (let i = 0; i < str.length - 1; i++) {
+        for (let j = i + 1; j <= str.length; j++) {
+            if (str.slice(i, j).length > returnStr.length && isPalindrome(str.slice(i, j))) {
+                returnStr = str.slice(i, j)
+            }
+        }
+    }
+    return returnStr
 }
 
 /*****************************************************************************/
