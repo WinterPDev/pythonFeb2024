@@ -1,0 +1,122 @@
+/* ==============================================
+ SELECT QUERIES w/ Join
+=================================================*/
+
+/*
+LEFT JOIN -> We match the tables by an id, and then return any results that match with that id.
+One thing to note: if there are no values (Such as a user with no tweets), then the tweet data would show as null.
+
+JOIN -> JOIN defaults to INNER JOIN which will only return data that matches, but ignores values when there's null data in one of the tables.
+
+RIGHT JOIN -> Like left join, but linking according to the second table. 
+
+OUTTER JOIN -> This is like the Inner Join but it doesn't need an ID to link them. Rarely used.
+*/
+
+
+-- fetch all users AND their tweets
+SELECT * 
+from users
+JOIN tweets ON tweets.user_id = users.id; 
+
+SELECT *
+from tweets
+LEFT JOIN users ON tweets.user_id = users.id;
+
+-- Many to Many Join: We need to make sure all data is joined/provided and we're good to go!
+
+SELECT *
+from faves
+LEFT JOIN users ON faves.user_id = users.id
+LEFT JOIN tweets ON faves.tweet_id = tweets.id;
+
+-- fetch specific columns from a table
+SELECT tweet, handle, tweets.id as tweet_id, users.id as tweeter_id, tweets.created_at as tweeted_at, users.created_at as registered_at
+from tweets
+LEFT JOIN users ON tweets.user_id = users.id;
+
+-- fetch data based on value (Most commonly used for fetching by IDs!)
+SELECT * 
+from users
+LEFT JOIN tweets ON tweets.user_id = users.id
+WHERE users.id = 3; 
+
+
+/* ==============================================
+ INSERT QUERIES
+=================================================*/
+/*
+INSERT INTO table_name (column_name1, column_name2) 
+VALUES('column1_value', 'column2_value');
+
+NOTE: When entering data that joins, we need to include the foreign key that matches the primary key from the joining table!
+
+Example below adds a tweet for the user with the id of 9.
+*/
+
+INSERT INTO tweets (tweet, user_id)
+VALUES('The high ground is overrated', 9);
+
+select * 
+from faves;
+
+INSERT INTO faves (user_id, tweet_id)
+VALUES(3, 13);
+
+/* ==============================================
+ UPDATE QUERIES
+=================================================*/
+/*
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+Even though we are using joins to get certain information. For an update, we just can update the relevant tables individually. 
+So this is the same for updating as the previous lecture.
+*/
+
+UPDATE users
+SET handle = 'DefinitelyASith', first_name = 'Darth Vader'
+WHERE first_name = 'Anakin'; -- Note: If you have safe mode enabled, you'll need to always include the ID in your WHERE clause!
+
+SELECT *
+from users;
+/* ==============================================
+ DELETE QUERIES
+ - IMPORTANT : IF YOU FORGET TO SPECIFY WITH A WHERE CLAUSE AND SAFE MODE IS DISABLED YOU WILL DELETE THE ENTIRE TABLE'S DATA. SO ALWAYS DOUBLE CHECK YOUR SYNTAX! 
+ 
+ For tables that rely on other tables, you will get some warnings/errors if you try to delete something that is connected to a foreign key!
+=================================================*/
+
+-- Note: Before using DELETE, you should double check if it exists in the table.
+
+-- DELETE FROM users 
+-- WHERE id = 8;
+
+
+/* ==============================================
+ Aggregate Functions
+
+ - Functions that can perform calculations against multiple values in our results.
+ Examples: COUNT( columnName ) , SUM( columnName ) , MIN( columnName )
+=================================================*/
+
+SELECT COUNT(*)
+
+SELECT MAX(id) as MaxId, MIN(id) as MinId
+FROM users;
+
+// Display # followers grouped by users.
+
+SELECT handle, COUNT(follower_id) as Followers
+FROM users
+JOIN follows ON users.id = follows.follower_id
+GROUP BY users.id;
+
+
+SELECT user_id, handle, COUNT(*) as total_tweets
+FROM tweets
+JOIN users ON users.id = tweets.user_id
+GROUP BY tweets.user_id;
+
+

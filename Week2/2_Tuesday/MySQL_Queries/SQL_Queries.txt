@@ -1,0 +1,69 @@
+/* ==============================================
+ SELECT QUERIES
+=================================================*/
+
+-- fetch all data within a table
+SELECT * 
+from users; 
+
+-- fetch specific columns from a table
+SELECT first_name, handle, created_at
+from users;
+
+-- fetch data based on value (Most commonly used for fetching by IDs!)
+SELECT *
+from users
+WHERE id = 3; -- Remember in SQL we use a single equal to compare, not two equals.
+
+-- fetch data that excludes a value
+SELECT *
+from users
+WHERE ID NOT LIKE 1;
+
+-- We can also use % as a wildcard to exclude values more specifically. Like excluding names that start with 'V'
+SELECT *
+from users
+WHERE first_name NOT LIKE 'V%';
+
+-- LIMIT is useful if we only want so many rows back from our DB, using LIMIT 1 is how we can fetch whatever may be the first row in the DB.
+SELECT *
+from users
+WHERE id > 2
+LIMIT 1;
+
+/* ==============================================
+ INSERT QUERIES
+=================================================*/
+/*
+INSERT INTO table_name (column_name1, column_name2) 
+VALUES('column1_value', 'column2_value');
+*/
+INSERT INTO users (first_name, last_name, handle, birthday)
+VALUES('Anakin', 'Skywalker', 'DefinitelyAJedi','1093-03-22');
+
+/* ==============================================
+ UPDATE QUERIES
+=================================================*/
+/*
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+*/
+UPDATE users
+SET handle = 'DefinitelyASith'
+WHERE first_name = 'Anakin'; -- Note: If you have safe mode enabled, you'll need to always include the ID in your WHERE clause!
+
+/* ==============================================
+ DELETE QUERIES
+ - IMPORTANT : IF YOU FORGET TO SPECIFY WITH A WHERE CLAUSE AND SAFE MODE IS DISABLED YOU WILL DELETE THE ENTIRE TABLE'S DATA. SO ALWAYS DOUBLE CHECK YOUR SYNTAX! 
+=================================================*/
+
+-- Note: Before using DELETE, you should double check if it exists in the table.
+
+
+DELETE FROM users WHERE first_name = 'Anakin';
+
+
+-- Example of a CONCAT function to combine first and last names
+SELECT CONCAT(first_name,' ', last_name)
+from users;
